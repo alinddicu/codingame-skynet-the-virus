@@ -54,9 +54,16 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SkynetTheVirusTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\codingame.skynet.the.virus\codingame.skynet.the.virus.csproj">
+      <Project>{9cc0d219-2712-42ff-910c-8eb0ddda0443}</Project>
+      <Name>codingame.skynet.the.virus</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

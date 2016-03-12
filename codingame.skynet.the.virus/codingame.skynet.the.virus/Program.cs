@@ -7,11 +7,7 @@
     using System.Collections;
     using System.Collections.Generic;
 
-    /**
-     * Auto-generated code below aims at helping you parse
-     * the standard input according to the problem statement.
-     **/
-    class Player
+    public class Player
     {
         static void Main(string[] args)
         {
@@ -39,12 +35,9 @@
             // game loop
             while (true)
             {
-                int SI = int.Parse(Console.ReadLine()); // The index of the node on which the Skynet agent is positioned this turn
+                int index = int.Parse(Console.ReadLine()); // The index of the node on which the Skynet agent is positioned this turn
 
-                // Write an action using Console.WriteLine()
-                // To debug: Console.Error.WriteLine("Debug messages...");
-
-                Console.WriteLine("0 1"); // Example: 0 1 are the indices of the nodes you wish to sever the link between
+                Console.WriteLine(skynetTheVirus.Severe(index)); // Example: 0 1 are the indices of the nodes you wish to sever the link between
             }
         }
 
@@ -53,9 +46,12 @@
             private readonly List<Node> _nodes = new List<Node>();
             private readonly List<Link> _links = new List<Link>();
 
-            public SkynetTheVirus(int nodes, IEnumerable<KeyValuePair<int, int>> links, List<int> gatewayIndexes)
+            public SkynetTheVirus(
+                int nodesCount,
+                IEnumerable<KeyValuePair<int, int>> links, 
+                ICollection<int> gatewayIndexes)
             {
-                for (var node = 0; node < nodes; node++)
+                for (var node = 0; node < nodesCount; node++)
                 {
                     _nodes.Add(new Node(node, gatewayIndexes.Contains(node)));
                 }
@@ -66,6 +62,11 @@
                     var node2 = _nodes.Single(n => n.Index == link.Value);
                     _links.Add(new Link(node1, node2));
                 }
+            }
+
+            public Link Severe(int index)
+            {
+                throw new NotImplementedException();
             }
         }
 
@@ -81,9 +82,14 @@
 
             public bool IsGateway { get; private set; }
 
-            public override int ToString()
+            public override string ToString()
             {
-                return Index;
+                return Index.ToString();
+            }
+
+            public override int GetHashCode()
+            {
+                return Index.GetHashCode();
             }
 
             public override bool Equals(object obj)
@@ -114,6 +120,17 @@
             public override string ToString()
             {
                 return string.Join(" ", _nodes);
+            }
+
+            public override bool Equals(object obj)
+            {
+                var other = (Link)obj;
+                return _nodes.OrderBy(n => n).SequenceEqual(other._nodes.OrderBy(n => n));
+            }
+
+            public override int GetHashCode()
+            {
+                return ToString().GetHashCode();
             }
         }
     }
