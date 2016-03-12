@@ -32,6 +32,7 @@
             var virus = new codingame.skynet.the.virus.Player.SkynetTheVirus(4, links, gateways);
 
             Check.That(virus.Severe(0).ToString()).IsEqualTo("1 3");
+            Check.That(virus.Severe(2).ToString()).IsEqualTo("2 3");
         }
     }
 }

@@ -15,13 +15,13 @@
             int NODES = int.Parse(inputs[0]); // the total number of nodes in the level, including the gateways
             int L = int.Parse(inputs[1]); // the number of links
             int E = int.Parse(inputs[2]); // the number of exit gateways
-            var links = new Dictionary<int, int>();
+            var links = new List<KeyValuePair<int, int>>();
             for (int i = 0; i < L; i++)
             {
                 inputs = Console.ReadLine().Split(' ');
                 int N1 = int.Parse(inputs[0]); // N1 and N2 defines a link between these nodes
                 int N2 = int.Parse(inputs[1]);
-                links.Add(int.Parse(inputs[0]), int.Parse(inputs[1]));
+                links.Add(new KeyValuePair<int, int>(int.Parse(inputs[0]), int.Parse(inputs[1])));
             }
 
             var gatewayIndexes = new List<int>();
@@ -66,7 +66,14 @@
 
             public Link Severe(int index)
             {
-                throw new NotImplementedException();
+                var linkToSevere = _links
+                    .FirstOrDefault(l => l.ContainsGateway() && !l.IsSevered);
+                if (linkToSevere != null)
+                {
+                    linkToSevere.IsSevered = true;
+                }
+
+                return linkToSevere;
             }
         }
 
@@ -117,6 +124,8 @@
                 _nodes.AddRange(new[] { index1, index2 });
             }
 
+            public bool IsSevered { get; set; }
+
             public override string ToString()
             {
                 return string.Join(" ", _nodes);
@@ -131,6 +140,11 @@
             public override int GetHashCode()
             {
                 return ToString().GetHashCode();
+            }
+
+            public bool ContainsGateway()
+            {
+                return _nodes.Any(n => n.IsGateway);
             }
         }
     }
