@@ -64,16 +64,26 @@
                 }
             }
 
-            public Link Severe(int index)
+            public Link Severe(int indexOfAgent)
             {
-                var linkToSevere = _links
-                    .FirstOrDefault(l => l.ContainsGateway() && !l.IsSevered);
-                if (linkToSevere != null)
+                Link link = null;
+                var linkWithGatewayAndAgents = _links
+                    .Where(l => l.ContainsGateway() && !l.IsSevered && l.HasIndex(indexOfAgent));
+                if (linkWithGatewayAndAgents.Any())
                 {
-                    linkToSevere.IsSevered = true;
+                    link = linkWithGatewayAndAgents.First();
+                }
+                else
+                {
+                    link = _links.First(l => l.ContainsGateway() && !l.IsSevered);
                 }
 
-                return linkToSevere;
+                if (link != null)
+                {
+                    link.IsSevered = true;
+                }
+
+                return link;
             }
         }
 
@@ -145,6 +155,11 @@
             public bool ContainsGateway()
             {
                 return _nodes.Any(n => n.IsGateway);
+            }
+
+            public bool HasIndex(int index)
+            {
+                return _nodes.Any(n => n.Index == index);
             }
         }
     }
