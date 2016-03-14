@@ -1,11 +1,8 @@
 ﻿namespace codingame.skynet.the.virus
 {
     using System;
-    using System.Linq;
-    using System.IO;
-    using System.Text;
-    using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
 
     public class Player
     {
@@ -66,23 +63,14 @@
 
             public Link Severe(int indexOfAgent)
             {
-                Link link = null;
-                var linkWithGatewayAndAgents = _links
-                    .Where(l => l.ContainsGateway() && !l.IsSevered && l.HasIndex(indexOfAgent));
-                if (linkWithGatewayAndAgents.Any())
+                var linksNonSevereds = _links.Where(l => l.ContainsGateway() && !l.IsSevered);
+                var link = linksNonSevereds.FirstOrDefault(l => l.HasIndex(indexOfAgent));
+                if (link == null)
                 {
-                    link = linkWithGatewayAndAgents.First();
-                }
-                else
-                {
-                    link = _links.First(l => l.ContainsGateway() && !l.IsSevered);
+                    link = linksNonSevereds.First();
                 }
 
-                if (link != null)
-                {
-                    link.IsSevered = true;
-                }
-
+                link.IsSevered = true;
                 return link;
             }
         }
