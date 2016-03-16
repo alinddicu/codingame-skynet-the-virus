@@ -9,7 +9,7 @@
     using System.Threading.Tasks;
 
     [TestClass]
-    public class SkynetTheVirusTests
+    public class SkynetVirusTests
     {
         [TestMethod]
         public void TwoPaths()
@@ -29,7 +29,7 @@
                 new KeyValuePair<int, int>(2, 3) 
             };
             var gateways = new int[] { 3 };
-            var virus = new codingame.skynet.the.virus.Player.SkynetTheVirus(4, links, gateways);
+            var virus = new codingame.skynet.the.virus.Player.SkynetVirus(4, links, gateways);
 
             Check.That(virus.Severe(0).ToString()).IsEqualTo("1 3");
             Check.That(virus.Severe(2).ToString()).IsEqualTo("2 3");
@@ -48,7 +48,7 @@
                 new KeyValuePair<int, int>(3, 4) 
             };
             var gateways = new int[] { 4 };
-            var virus = new codingame.skynet.the.virus.Player.SkynetTheVirus(5, links, gateways);
+            var virus = new codingame.skynet.the.virus.Player.SkynetVirus(5, links, gateways);
 
             Check.That(virus.Severe(0).ToString()).IsEqualTo("1 4");
             Check.That(virus.Severe(3).ToString()).IsEqualTo("3 4");

@@ -27,7 +27,7 @@
                 gatewayIndexes.Add(int.Parse(Console.ReadLine())); // the index of a gateway node
             }
 
-            var skynetTheVirus = new SkynetTheVirus(NODES, links, gatewayIndexes);
+            var skynetTheVirus = new SkynetVirus(NODES, links, gatewayIndexes);
 
             // game loop
             while (true)
@@ -38,12 +38,12 @@
             }
         }
 
-        public class SkynetTheVirus
+        public class SkynetVirus
         {
             private readonly List<Node> _nodes = new List<Node>();
             private readonly List<Link> _links = new List<Link>();
 
-            public SkynetTheVirus(
+            public SkynetVirus(
                 int nodesCount,
                 IEnumerable<KeyValuePair<int, int>> links, 
                 ICollection<int> gatewayIndexes)
@@ -91,26 +91,6 @@
             {
                 return Index.ToString();
             }
-
-            public override int GetHashCode()
-            {
-                return Index.GetHashCode();
-            }
-
-            public override bool Equals(object obj)
-            {
-                return Index == ((Node)obj).Index;
-            }
-
-            public static bool operator ==(Node left, Node right)
-            {
-                return Equals(left, right);
-            }
-
-            public static bool operator !=(Node left, Node right)
-            {
-                return !Equals(left, right);
-            }
         }
 
         public class Link
@@ -127,17 +107,6 @@
             public override string ToString()
             {
                 return string.Join(" ", _nodes);
-            }
-
-            public override bool Equals(object obj)
-            {
-                var other = (Link)obj;
-                return _nodes.OrderBy(n => n).SequenceEqual(other._nodes.OrderBy(n => n));
-            }
-
-            public override int GetHashCode()
-            {
-                return ToString().GetHashCode();
             }
 
             public bool ContainsGateway()
